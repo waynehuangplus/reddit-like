@@ -20,15 +20,17 @@ EOF;
 if (isset($_POST['topic'])) {
 
     $topicList = new TopicList();
+    // Restore data from storage
     if (isset($_SESSION['topicList'])) {
         $obj = json_decode($_SESSION['topicList'], true);
         $topicList->setTopicCount($obj['topicCount']);
-        foreach ($obj['topicArray'] as $key) {
-            $topic = Topic::newTopicWithSerial($key['topicName'], $key['topicSerial']);
-            $topicList->addTopic($topic);
+        foreach ($obj['topicArray'] as $key => $value) {
+            $topic = Topic::newTopic($value['topicName']);
+            $topicList->addTopic($topic, $key);
         }
     }
 
+    // Build new topic object
     $topic = null;
     try {
         $topic = Topic::newTopic($_POST["topic"]);
@@ -37,6 +39,7 @@ if (isset($_POST['topic'])) {
     }
     $topicList->addTopic($topic);
     $_SESSION['topicList'] = json_encode($topicList);
-    $output = $_SESSION['topicList'];}
+    $output = $_SESSION['topicList'];
+}
     var_dump($output);
 ?>

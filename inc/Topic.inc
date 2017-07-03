@@ -1,59 +1,89 @@
 <?php
 
-class Topic {
-    private $topicSerial;
+class Topic implements \JsonSerializable {
     private $topicName;
-    private $thumbUpCount = 0;
-    private $thumbDownCount = 0;
     private $totalThumbCount = 0;
     const topicLength = 255;
 
-    public function __construct($topicName)
-    {
-        $this->topicName = $this->userInputChecker($topicName);
-        $this->topicSerial = uniqid("topic_");
+    /**
+     * Constructor.
+     * @param $topicName
+     * @return Topic
+     */
+    public static function newTopic($topicName) {
+        $instance = new self();
+        $instance->setTopicName($instance->userInputChecker($topicName));
+        return $instance;
     }
 
-    /**
-     * @return int
-     */
-    public function getThumbUpCount()
-    {
-        return $this->thumbUpCount;
-    }
+//    /**
+//     * Constructor.
+//     * @param $topicName
+//     * @param $serialNum
+//     * @return Topic
+//     */
+//    public static function newTopicWithSerial($topicName, $serialNum) {
+//        $instance = new self();
+//        $instance->setTopicName($instance->userInputChecker($topicName));
+//        $instance->setTopicSerial($serialNum);
+//        return $instance;
+//    }
 
     /**
-     * @param int $thumbUpCount
+     * Decrease total thumb count.
      */
-    public function setThumbUpCount($thumbUpCount)
+    public function thumbUp()
     {
-        $this->thumbUpCount = $thumbUpCount;
         $this->totalThumbCount++;
     }
 
     /**
-     * @return int
+     * Increase total thumb count/
      */
-    public function getThumbDownCount()
+    public function thumbDown()
     {
-        return $this->thumbDownCount;
-    }
-
-    /**
-     * @param int $thumbDownCount
-     */
-    public function setThumbDownCount($thumbDownCount)
-    {
-        $this->thumbDownCount = $thumbDownCount;
         $this->totalThumbCount--;
     }
 
     /**
+     * Return total thumb count.
      * @return int
      */
-    public function getTotalThumbCount()
+    public function getTotalCount()
     {
         return $this->totalThumbCount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTopicSerial()
+    {
+        return $this->topicSerial;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTopicName()
+    {
+        return $this->topicName;
+    }
+
+    /**
+     * @param mixed $topicName
+     */
+    public function setTopicName($topicName)
+    {
+        $this->topicName = $topicName;
+    }
+
+    /**
+     * @param int $totalThumbCount
+     */
+    public function setTotalThumbCount($totalThumbCount)
+    {
+        $this->totalThumbCount = $totalThumbCount;
     }
 
 
@@ -69,9 +99,16 @@ class Topic {
         return $esacpeTopic;
 }
 
+    /**
+     * Use json format to store topic.
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $vars = get_object_vars($this);
 
-
-
+        return $vars;
+    }
 }
 
 
