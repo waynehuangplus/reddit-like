@@ -25,7 +25,7 @@ if (isset($_POST['topic'])) {
         $obj = json_decode($_SESSION['topicList'], true);
         $topicList->setTopicCount($obj['topicCount']);
         foreach ($obj['topicArray'] as $key => $value) {
-            $topic = Topic::newTopic($value['topicName']);
+            $topic = Topic::restoreTopic($value['topicName'], $value['totalThumbCount']);
             $topicList->addTopic($topic, $key);
         }
     }

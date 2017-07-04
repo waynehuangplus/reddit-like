@@ -9,7 +9,7 @@ class TopicList implements \JsonSerializable {
      */
     public function addTopic($singleTopic, $topicId = null) {
         if ($topicId == null) {
-            $topicId = uniqid("topic_");
+            $topicId = uniqid();
         }
         $this->topicArray[$topicId] = $singleTopic;
         $this->topicCount++;
@@ -33,6 +33,15 @@ class TopicList implements \JsonSerializable {
             return -1;
         }
     }
+
+    /**
+     * @return array
+     */
+    public function getTopicArray()
+    {
+        return $this->topicArray;
+    }
+
 
     public function getTop20() {
         usort($this->topicArray, $this->sortList());

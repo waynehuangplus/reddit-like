@@ -16,6 +16,18 @@ class Topic implements \JsonSerializable {
         return $instance;
     }
 
+    /**
+     * Constructor.
+     * @param $topicName
+     * @return Topic
+     */
+    public static function restoreTopic($topicName, $totalCount) {
+        $instance = new self();
+        $instance->setTopicName($instance->userInputChecker($topicName));
+        $instance->setTotalThumbCount($totalCount);
+        return $instance;
+    }
+
 //    /**
 //     * Constructor.
 //     * @param $topicName
