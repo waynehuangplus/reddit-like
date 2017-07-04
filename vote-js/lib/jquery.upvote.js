@@ -129,17 +129,8 @@
 
     function upvote(jqdom) {
         var data = jqdom.data(namespace);
-        if (data.upvoted) {
-            data.upvoted = false;
-            --data.count;
-        } else {
-            data.upvoted = true;
-            ++data.count;
-            if (data.downvoted) {
-                data.downvoted = false;
-                ++data.count;
-            }
-        }
+        data.upvoted = true;
+        ++data.count;
         render(jqdom);
         callback(jqdom);
         return jqdom;
@@ -147,17 +138,8 @@
 
     function downvote(jqdom) {
         var data = jqdom.data(namespace);
-        if (data.downvoted) {
-            data.downvoted = false;
-            ++data.count;
-        } else {
-            data.downvoted = true;
-            --data.count;
-            if (data.upvoted) {
-                data.upvoted = false;
-                --data.count;
-            }
-        }
+        data.downvoted = true;
+        --data.count;
         render(jqdom);
         callback(jqdom);
         return jqdom;
