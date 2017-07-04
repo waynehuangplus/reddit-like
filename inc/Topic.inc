@@ -69,14 +69,6 @@ class Topic implements \JsonSerializable {
     /**
      * @return string
      */
-    public function getTopicSerial()
-    {
-        return $this->topicSerial;
-    }
-
-    /**
-     * @return string
-     */
     public function getTopicName()
     {
         return $this->topicName;
