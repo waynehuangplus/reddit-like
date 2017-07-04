@@ -28,19 +28,6 @@ class Topic implements \JsonSerializable {
         return $instance;
     }
 
-//    /**
-//     * Constructor.
-//     * @param $topicName
-//     * @param $serialNum
-//     * @return Topic
-//     */
-//    public static function newTopicWithSerial($topicName, $serialNum) {
-//        $instance = new self();
-//        $instance->setTopicName($instance->userInputChecker($topicName));
-//        $instance->setTopicSerial($serialNum);
-//        return $instance;
-//    }
-
     /**
      * Decrease total thumb count.
      */

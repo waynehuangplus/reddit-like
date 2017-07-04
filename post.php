@@ -23,7 +23,7 @@ if (isset($_POST['topic'])) {
     // Restore data from storage
     if (isset($_SESSION['topicList'])) {
         $obj = json_decode($_SESSION['topicList'], true);
-        $topicList->setTopicCount($obj['topicCount']);
+//        $topicList->setTopicCount($obj['topicCount']);
         foreach ($obj['topicArray'] as $key => $value) {
             $topic = Topic::restoreTopic($value['topicName'], $value['totalThumbCount']);
             $topicList->addTopic($topic, $key);
@@ -41,5 +41,4 @@ if (isset($_POST['topic'])) {
     $_SESSION['topicList'] = json_encode($topicList);
     $output = $_SESSION['topicList'];
 }
-    var_dump($output);
 ?>

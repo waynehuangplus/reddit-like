@@ -13,7 +13,9 @@ echo <<< EOF
     $.ajax({
         url: 'http://d1.maximum.cc/~maximum/reddit/index.php',
         type: 'post',
-        data: { id: data.id, up: data.upvoted, down: data.downvoted, star: data.starred }
+        data: { id: data.id, up: data.upvoted, down: data.downvoted, star: data.starred },
+        success: location.reload();
+
     });
 };
  </script>
@@ -63,8 +65,7 @@ vote($_POST['id'], $topicList);
 
 
 function generateTemplate($topicList) {
-    $topicArray = $topicList->getTopicArray();
-    var_dump($topicArray);
+    $topicArray = $topicList->getTop20();
     foreach ($topicArray as $key => $value) {
         $count = $value->getTotalCount();
         $topicName = $value->getTopicName();
@@ -76,7 +77,6 @@ function generateTemplate($topicList) {
         echo "<a class=\"downvote\"></a>";
         echo "<script type=\"text/javascript\">";
         echo "$('#$topicId').upvote({id: \"$key\", callback: callback});";
-//        echo "$('#topic-595b5996c347d').upvote({id: \"595b5996c347d\", callback: callback})";
         echo "</script>";
         echo "</div>";
     }
@@ -90,12 +90,10 @@ function generateTemplate($topicList) {
  */
 function restoreData($data, $topicList) {
         $obj = json_decode($data, true);
-        $topicList->setTopicCount($obj['topicCount']);
         foreach ($obj['topicArray'] as $key => $value) {
             $topic = Topic::restoreTopic($value['topicName'], $value['totalThumbCount']);
             $topicList->addTopic($topic, $key);
         }
-//        $topicList->getTop20();
 }
 
 
@@ -107,7 +105,6 @@ function restoreData($data, $topicList) {
 function vote($topicId, $topicList) {
     $topic = $topicList->getTopicArray();
     if ($_POST['up'] == true) {
-        error_log("upup");
         $topic[$topicId]->thumbUp();
     } elseif ($_POST['down'] == true) {
         $topic[$topicId]->thumbDown();
@@ -116,4 +113,6 @@ function vote($topicId, $topicList) {
 
 // Write to storage
 $_SESSION['topicList'] = json_encode($topicList);
+
+//session_destroy();
 ?>

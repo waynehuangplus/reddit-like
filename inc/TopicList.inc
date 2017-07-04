@@ -12,7 +12,7 @@ class TopicList implements \JsonSerializable {
             $topicId = uniqid();
         }
         $this->topicArray[$topicId] = $singleTopic;
-        $this->topicCount++;
+        $this->topicCount = count($this->topicArray);
     }
 
     /**
@@ -28,9 +28,9 @@ class TopicList implements \JsonSerializable {
         if ($a->getTotalCount() == $b->getTotalCount()) {
             return 0;
         } elseif ($a->getTotalCount() > $b->getTotalCount()) {
-            return 1;
-        } elseif ($a->getTotalCount() < $b->getTotalCount()) {
             return -1;
+        } elseif ($a->getTotalCount() < $b->getTotalCount()) {
+            return 1;
         }
     }
 
@@ -44,7 +44,7 @@ class TopicList implements \JsonSerializable {
 
 
     public function getTop20() {
-        usort($this->topicArray, $this->sortList());
+        uasort($this->topicArray, array($this, 'sortList'));
         if (count($this->topicArray) < 20) {
             return $this->topicArray;
         }
