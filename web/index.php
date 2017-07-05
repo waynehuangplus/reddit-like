@@ -2,10 +2,11 @@
 session_start();
 require_once ("./inc/Topic.inc");
 require_once ("./inc/TopicList.inc");
+require('vendor/autoload.php');
 $topicList = new TopicList();
 
 
-echo "<a href=\"/~maximum/reddit/post.php\" target=\"_blank\">post a topic</a>";
+echo "<a href=\"post.php\" target=\"_blank\">post a topic</a>";
 
 echo <<< EOF
 <script src="vote-js/js/jquery-3.1.0.min.js"></script>
@@ -14,7 +15,7 @@ echo <<< EOF
 <script type="text/javascript">
     var callback = function(data) {
     $.ajax({
-        url: '/~maximum/reddit/index.php',
+        url: 'index.php',
         type: 'post',
         data: { id: data.id, up: data.upvoted, down: data.downvoted, star: data.starred },
         

@@ -2,7 +2,7 @@
 session_start();
 require_once ("./inc/Topic.inc");
 require_once ("./inc/TopicList.inc");
-
+require('vendor/autoload.php');
 echo <<< EOF
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
