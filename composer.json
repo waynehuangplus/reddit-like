@@ -1,0 +1,17 @@
+{
+    "name": "wayne/reddit-like",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/waynehuangplus/reddit-like"
+        }
+    ],
+    "bin": [
+        "bin/heroku-php-apache2"
+    ],
+    "require": {
+        "php": "^5.6.0",
+        "ext-json": "*",
+        "ext-session": "*"
+    }
+}
