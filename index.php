@@ -4,6 +4,9 @@ require_once ("./inc/Topic.inc");
 require_once ("./inc/TopicList.inc");
 $topicList = new TopicList();
 
+
+echo "<a href=\"/~maximum/reddit/post.php\" target=\"_blank\">post a topic</a>";
+
 echo <<< EOF
 <script src="vote-js/js/jquery-3.1.0.min.js"></script>
 <script src="vote-js/lib/jquery.upvote.js"></script>
@@ -11,44 +14,16 @@ echo <<< EOF
 <script type="text/javascript">
     var callback = function(data) {
     $.ajax({
-        url: 'http://d1.maximum.cc/~maximum/reddit/index.php',
+        url: '/~maximum/reddit/index.php',
         type: 'post',
         data: { id: data.id, up: data.upvoted, down: data.downvoted, star: data.starred },
-        success: location.reload();
-
+        
+    }).done(function() {
+        location.reload()
     });
 };
  </script>
 EOF;
-
-
-//echo <<< EOF
-//    <script src="vote-js/js/jquery-3.1.0.min.js"></script>
-//    <script src="vote-js/lib/jquery.upvote.js"></script>
-//    <link rel="stylesheet" href="vote-js/lib/jquery.upvote.css">
-//
-//<div id="topic-595b5996c347d" class="upvote">
-//    <a class="upvote"></a>
-//    <span class="count">0</span>
-//    <a class="downvote"></a>
-//    <a class="star"></a>
-//
-//</div>
-//
-//    <script>
-//    var callback = function(data) {
-//    $.ajax({
-//        url: 'http://d1.maximum.cc/~maximum/reddit/index.php',
-//        type: 'post',
-//        data: { id: data.id, up: data.upvoted, down: data.downvoted, star: data.starred }
-//    });
-//};
-//    $('#topic-595b5996c347d').upvote({id: "595b5996c347d", callback: callback});
-//    </script>
-//EOF;
-
-
-
 
 // Restore data from storage
 if (isset($_SESSION['topicList'])) {
@@ -63,21 +38,27 @@ vote($_POST['id'], $topicList);
 }
 
 
-
+/**
+ * Generate vote template.
+ * @param $topicList
+ */
 function generateTemplate($topicList) {
     $topicArray = $topicList->getTop20();
     foreach ($topicArray as $key => $value) {
         $count = $value->getTotalCount();
         $topicName = $value->getTopicName();
         $topicId = "topic-".$key;
-        echo "<div id = $topicId class = \"upvote\">";
+        echo "<div style=\"position: relative; border: solid 0px red; width: 500px; text-align: center;\">";
         echo "<p>".$topicName."</p>";
+        echo "</br></br>";
+        echo "<div id = $topicId class = \"upvote\" style=\"position: absolute;left: 0px;top: -10px;\">";
         echo "<a class=\"upvote\"></a>";
         echo "<span class=\"count\">".$count."</span>";
         echo "<a class=\"downvote\"></a>";
         echo "<script type=\"text/javascript\">";
         echo "$('#$topicId').upvote({id: \"$key\", callback: callback});";
         echo "</script>";
+        echo "</div>";
         echo "</div>";
     }
 

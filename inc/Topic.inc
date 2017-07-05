@@ -23,7 +23,7 @@ class Topic implements \JsonSerializable {
      */
     public static function restoreTopic($topicName, $totalCount) {
         $instance = new self();
-        $instance->setTopicName($instance->userInputChecker($topicName));
+        $instance->setTopicName($topicName);
         $instance->setTotalThumbCount($totalCount);
         return $instance;
     }

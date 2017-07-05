@@ -34,11 +34,11 @@ if (isset($_POST['topic'])) {
     $topic = null;
     try {
         $topic = Topic::newTopic($_POST["topic"]);
+        $topicList->addTopic($topic);
+        $_SESSION['topicList'] = json_encode($topicList);
+        $output = $_SESSION['topicList'];
     } catch (Exception $ex) {
         echo "Input is over the length limitation";
     }
-    $topicList->addTopic($topic);
-    $_SESSION['topicList'] = json_encode($topicList);
-    $output = $_SESSION['topicList'];
 }
 ?>
